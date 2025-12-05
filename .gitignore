@@ -21,3 +21,5 @@ data/
 models/*
 !models/README.md
 dist/
+unimernet_base
+unimernet_small

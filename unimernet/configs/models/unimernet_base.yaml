@@ -6,7 +6,7 @@ model:
   finetuned: ""
   tokenizer_name: nougat
   tokenizer_config:
-    path: ./models/unimernet
+    path: ./models/unimernet_base
   model_name: unimernet
   model_config:
     max_seq_len: 384

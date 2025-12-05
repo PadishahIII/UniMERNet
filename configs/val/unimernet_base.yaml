@@ -8,7 +8,7 @@ model:
 
   load_pretrained: False
   load_finetuned: True
-  finetuned: './models/unimernet_base.pth'
+  finetuned: './models/unimernet_base/pytorch_model.pth'
 
 datasets:
 
@@ -43,8 +43,10 @@ datasets:
         max_words: 1536
 
     build_info:
-      images: ./data/UniMER-Test/cpe
-      annotation: ./data/UniMER-Test/cpe.txt
+      images: ./data/test/test
+      annotation: ./data/test/test.txt
+      # images: ./data/UniMER-Test/cpe
+      # annotation: ./data/UniMER-Test/cpe.txt
 
 run:
   runner: runner_iter
