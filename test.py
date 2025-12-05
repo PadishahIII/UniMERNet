@@ -181,6 +181,7 @@ def main():
     # Generate prediction with MFR model
     print(f"Device:{device}")
     print(f"Load model: {end1 - start:.3f}s")
+    print(f"Model parameter: {sum(p.numel() for p in model.parameters()) / 1e6:.2f}M")
 
     # Load Data (image and corresponding annotations)
     val_names = [
