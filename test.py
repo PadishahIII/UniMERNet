@@ -209,7 +209,7 @@ def main():
     )
 
     dataset = MathDataset(args.config_name, transform=transform)
-    dataloader = DataLoader(dataset, batch_size=2, num_workers=16, shuffle=False)
+    dataloader = DataLoader(dataset, batch_size=128, num_workers=16, shuffle=False)
 
     math_preds = []
     for images in tqdm(dataloader):
