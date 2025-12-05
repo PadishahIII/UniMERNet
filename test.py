@@ -1,5 +1,6 @@
 import argparse
 import io
+from pathlib import Path
 import time
 from datasets import load_dataset
 from torch.mps import is_available
@@ -16,7 +17,7 @@ import torch.backends.cudnn as cudnn
 from PIL import Image
 from tabulate import tabulate
 from rapidfuzz.distance import Levenshtein
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset, DataLoader, Subset
 from torchvision import transforms
 from unimernet.common.config import Config
 
@@ -59,7 +60,10 @@ class MathDataset(Dataset):
         return image
 
     def labels(self) -> list[str]:
-        return [normalize_text(sample["text"]) for sample in self.ds]
+        return [
+            normalize_text(sample["text"])
+            for sample in Subset(self.ds, range(len(self)))
+        ]
 
 
 def load_data(image_path, math_file):
@@ -205,7 +209,7 @@ def main():
     )
 
     dataset = MathDataset(args.config_name, transform=transform)
-    dataloader = DataLoader(dataset, batch_size=64, num_workers=16)
+    dataloader = DataLoader(dataset, batch_size=2, num_workers=16, shuffle=False)
 
     math_preds = []
     for images in tqdm(dataloader):
@@ -220,6 +224,7 @@ def main():
     print(f"len_gts:{len(norm_gts)}, len_preds={len(norm_preds)}")
     print(f"norm_gts[0]:{norm_gts[0]}")
     print(f"norm_preds[0]:{norm_preds[0]}")
+    Path("pred.txt").write_text("\n".join(norm_preds))
 
     p_scores = score_text(norm_preds, norm_gts)
 
